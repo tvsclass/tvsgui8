@@ -1,0 +1,72 @@
+#!/bin/bash
+
+#начнём
+
+case $1 in
+
+--install)
+exec 2>/dev/null
+
+clear
+
+echo installing components... \(10-40min\)
+apt install toilet >&2
+pacman -S toilet >&2
+apt install openbox lxpanel pcmanfm nano >&2
+pacman -S openbox lxpanel pcmanfm nano >&2
+
+echo installing complete...
+
+tvsgui --info
+echo adding new user...
+adduser vnc
+vncserver :1 >&2 && vncserver -kill :1 >&2
+;;
+
+#quit
+kill)
+
+tvsgui --quit
+
+;;
+
+#real quit
+--quit)
+DISPLAY=:1
+USER=vnc
+
+clear && vncserver -kill :1 && toilet server --metal && toilet down --metal
+;;
+
+--info)
+toilet tvsgui8 --gay
+echo
+echo by tvsclass \(valerik 228\)
+echo
+echo usage:
+echo  tvsgui --quit / tvsgui kill to quit
+echo --info to info \(you are here\)
+;;
+
+--debug)
+exec 2>/dev/null
+DISPLAY=:1
+USER=vnc 
+openbox 
+lxpanel 
+pcmanfm 
+toilet started --gay
+;;
+
+*)
+exec 2>/dev/null
+DISPLAY=:1
+USER=vnc 
+openbox >&2
+lxpanel >&2
+pcmanfm >&2
+toilet started --gay
+;;
+
+
+esac
