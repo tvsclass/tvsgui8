@@ -45,6 +45,9 @@ cd tvspkg
 rm /usr/local/bin/tvsgui
 cp tvspkg /usr/bin/
 chmod +x /usr/bin/tvspkg 
+cd ..
+cp tvsgui /usr/bin/
+chmod +x /usr/bin/tvsgui
 message 'Установка завершена.'
 
 #ну всё. действия этого скрипта завершены
