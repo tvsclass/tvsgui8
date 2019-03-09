@@ -3,70 +3,112 @@
 #начнём
 
 case $1 in
-
---install)
-exec 2>/dev/null
-
-clear
-
-echo installing components... \(10-40min\)
-apt install toilet >&2
-pacman -S toilet >&2
-apt install openbox lxpanel pcmanfm nano >&2
-pacman -S openbox lxpanel pcmanfm nano >&2
-
-echo installing complete...
-
-tvsgui --info
-echo adding new user...
-adduser vnc
-vncserver :1 >&2 && vncserver -kill :1 >&2
-;;
-
-#quit
-kill)
-
-tvsgui --quit
-
-;;
-
-#real quit
---quit)
-DISPLAY=:1
-USER=vnc
-
-clear && vncserver -kill :1 && toilet server --metal && toilet down --metal
-;;
-
---info)
-toilet tvsgui8 --gay
+debug)
 echo
-echo by tvsclass \(valerik 228\)
-echo
-echo usage:
-echo  tvsgui --quit / tvsgui kill to quit
-echo --info to info \(you are here\)
+shift
 ;;
-
---debug)
+*)
 exec 2>/dev/null
-DISPLAY=:1
-USER=vnc 
-openbox 
-lxpanel 
-pcmanfm 
-toilet started --gay
+;;
+esac
+
+function datem {
+date=$(date)
+echo '[' $date ']:' $1 ; }
+
+
+function main {
+message 'Назначение системных переменных...'
+export DISPLAY=:1
+export USER=vnc 
+message 'Запуск сервера...'
+datem 'xserver запущен'
+message 'Запуск openbox...'
+openbox & >&2
+message 'Запуск lxpanel...'
+lxpanel & >&2
+message 'Запуск nautilus...'
+nautilus & >&2
+message 'enter, чтобы разблок. shell'
+message 'Запуск zenity...'
+function m {
+a=$(zenity --forms --title="tvsgui" \
+        --text="сеанс tvsgui" \
+        --separator="," \
+        --text="введите exit для безопастного отключения сеанса " \
+        --add-entry="команда" & >&2)
+        a &
+
+}
+
+function a {
+case $a in
+
+exit)
+tvsgui exit
 ;;
 
 *)
-exec 2>/dev/null
-DISPLAY=:1
-USER=vnc 
-openbox >&2
-lxpanel >&2
-pcmanfm >&2
-toilet started --gay
+m &
+;;
+esac
+}
+
+m &
+}
+
+
+
+function message {
+echo "[tvsgui] message:"  $1 ; }
+
+
+
+function list {
+echo '[list]' $1  ; }
+
+
+
+function quest {
+echo '[question]:' $1
+read ban
+case $ban in
+y)
+echo 
+;;
+*)
+message 'отменено пользователем'
+exit 0 
+;;
+esac
+}
+
+
+case $1 in
+stop)
+vncserver -kill :1
 ;;
 
+exit)
+tvsgui stop
+;;
+
+help)
+message 'tvsgui 8 by tvsclass'
+echo Параметры использования:
+echo
+echo tvsgui exit - отключит сервер
+echo tvsgui start - включит сервер
+;;
+
+start)
+main
+;;
+
+*)
+echo '[tvsgui] message:' опция $1 не найдена
+message 'tvsgui help' для справки
+;;
 
 esac
+
