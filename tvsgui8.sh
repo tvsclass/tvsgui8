@@ -37,9 +37,10 @@ list 'tightvncserver 1.0+'
 list 'lxpanel 1.0+'
 list 'nautilus 1.0+'
 list 'openbox 1.0+'
+list 'zenity 1.0+'
 #ну и запускаем установку
 quest 'Установить компоненты?'
-apt install lxpanel nautilus openbox git -y >> /dev/null
+apt install lxpanel nautilus openbox zenity git -y >> /dev/null
 git clone https://github.com/tvsclass/tvspkg >> /dev/null
 cd tvspkg
 rm /usr/local/bin/tvsgui
