@@ -8,6 +8,7 @@ echo
 shift
 ;;
 *)
+exec 3>/dev/null
 exec 2>/dev/null
 ;;
 esac
@@ -25,11 +26,11 @@ message 'Запуск сервера...'
 USER=vnc vncserver -geometry 1280x720 :1
 datem 'xserver запущен'
 message 'Запуск openbox...'
-DISPLAY=:1 openbox & >&2
+DISPLAY=:1 openbox & >&3
 message 'Запуск lxpanel...'
-DISPLAY=:1 lxpanel & >&2
+DISPLAY=:1 lxpanel & >&3
 message 'Запуск nautilus...'
-DISPLAY=:1 nautilus & >&2
+DISPLAY=:1 nautilus & >&3
 message 'enter, чтобы разблок. shell'
 message 'Запуск zenity...'
 function m {
