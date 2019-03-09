@@ -40,6 +40,7 @@ list 'openbox 1.0+'
 list 'zenity 1.0+'
 #ну и запускаем установку
 quest 'Установить компоненты?'
+apt update
 apt install lxpanel nautilus openbox zenity git -y >> /dev/null
 git clone https://github.com/tvsclass/tvspkg >> /dev/null
 cd tvspkg
