@@ -23,8 +23,10 @@ message 'Назначение системных переменных...'
 export DISPLAY=:1
 export USER=vnc 
 message 'Запуск сервера...'
-USER=vnc vncserver -geometry 1280x720 :1
-datem 'xserver запущен'
+if USER=vnc vncserver -geometry 1280x720 :1;
+then datem 'xserver запущен';
+else datem 'ошибка запуска xserver' && exit 2;
+fi
 message 'Запуск openbox...'
 DISPLAY=:1 openbox & >&3
 message 'Запуск lxpanel...'
