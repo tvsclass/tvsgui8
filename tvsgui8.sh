@@ -2,7 +2,10 @@
 #ну вот 8 версия... это удобнее...
 #сюда будет отдельный репозиторий на гитхабе.
 
-#копируем сам скрипт
+
+exec 3>/dev/null
+
+
 
 function quest {
 echo '[question]:' $1
@@ -26,6 +29,7 @@ echo '[list]' '[' $1 ']'  ; }
 
 
 message 'установка...'
+cd ~/tvagui8/
 cp tvsgui /usr/local/bin/
 chmod +x /usr/local/bin/tvsgui
 
@@ -41,8 +45,8 @@ list 'zenity 1.0+'
 #ну и запускаем установку
 quest 'Установить компоненты?'
 apt update
-apt install lxpanel nautilus openbox zenity git -y >> /dev/null
-git clone https://github.com/tvsclass/tvspkg >> /dev/null
+apt install lxpanel nautilus openbox zenity git -y >&3
+git clone https://github.com/tvsclass/tvspkg >&3
 cd tvspkg
 rm /usr/local/bin/tvsgui
 cp tvspkg /usr/bin/
