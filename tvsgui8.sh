@@ -45,7 +45,7 @@ list 'zenity 1.0+'
 #ну и запускаем установку
 quest 'Установить компоненты?'
 apt update
-apt install vncserver lxpanel nautilus openbox zenity git -y >&3
+apt install tightvncserver lxpanel nautilus openbox zenity git -y >&3
 git clone https://github.com/tvsclass/tvspkg >&3
 cd tvspkg
 rm /usr/local/bin/tvsgui
